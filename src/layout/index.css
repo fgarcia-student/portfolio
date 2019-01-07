@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Karla:400,700');
+
+
+html {
+    font-family: 'Karla' 'sans-serif';
+    font-size: 62.5% /* 1rem = 10px */
+}
+
+body {
+    box-sizing: border-box;
+    background-color: #F1F2EE;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+.layout {
+    height: 97vh;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
