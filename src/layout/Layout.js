@@ -4,8 +4,9 @@ import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
 import ChatBubbleOutline from "@material-ui/icons/ChatBubbleOutline"
 import Phone from "@material-ui/icons/Phone"
-import { navigate } from "gatsby"
+import { Link } from "gatsby"
 import GithubIcon from "../icons/Github"
+
 
 import './index.css'
 
@@ -35,7 +36,9 @@ const links = [
     }
 ];
 
-const NavItem = styled.div`
+const NavItem = styled(Link)`
+    text-decoration: none;
+    color: black;
     display: flex;
     width: 7rem;
     flex-direction: column;
@@ -53,8 +56,8 @@ export const Layout = ({children}) => (
     <Paper className={"layout"} square >
         <Nav>
             {links.map(({icon: Icon, to, label}) => (
-                <Button key={to} onClick={() => navigate(to)}>
-                    <NavItem>
+                <Button key={to}>
+                    <NavItem to={to}>
                         <Icon />
                         <NavItemText>{label}</NavItemText>
                     </NavItem>
