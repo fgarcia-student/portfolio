@@ -1,13 +1,13 @@
 import React from "react"
 import styled from "styled-components"
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Divider from "@material-ui/core/Divider";
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Divider from "@material-ui/core/Divider"
 
 import Layout from "../layout/Layout"
-import ProjectListItem from "../components/ProjectListItem";
-import SelectedProject from "../components/SelectedProject";
+import ProjectListItem from "../components/ProjectListItem"
+import SelectedProject from "../components/SelectedProject"
 
-const ListWrapper = styled.div`
+export const ListWrapper = styled.div`
     display: flex;
     height: 33rem;
     min-height: 33rem;
@@ -66,7 +66,7 @@ class Projects extends React.Component {
                     {
                         this.state.projects.length > 0 &&
                         this.state.projects
-                        .map((project) => (
+                        .map(project => 
                             <ProjectListItem
                                 key={project.id}
                                 project={project}
@@ -76,14 +76,14 @@ class Projects extends React.Component {
                                 onHoverExit={() => this.setState({ hoveredProject: null })}
                                 onClick={() => this.setState({ hoveredProject: project, selectedProject: project })}
                             />
-                        ))
+                        )
                     }
                 </ListWrapper>
                 <Divider variant="middle" />
                 <SelectedProjectWrapper>
                     {this.state.selectedProject === null && "Select a project to preview..."}
                     {
-                        this.state.selectedProject !== null &&
+                        this.state.selectedProject != null &&
                         <SelectedProject project={this.state.selectedProject} />
                     }
                 </SelectedProjectWrapper>

@@ -82,7 +82,7 @@ function ProjectListItem({ project, ...props }) {
             <Card>
                 <CardActionArea>
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
+                        <Typography gutterBottom variant="h5" component="h5">
                             {project.full_name}
                         </Typography>
                         <Typography component="p">
