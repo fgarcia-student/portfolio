@@ -3,7 +3,8 @@ import Layout from "../layout/Layout"
 import styled, { keyframes } from "styled-components"
 import Typography from '@material-ui/core/Typography'
 import MuiTextField from '@material-ui/core/TextField'
-import { Button } from "@material-ui/core";
+import { Button } from "@material-ui/core"
+import { Link } from "gatsby"
 
 const scaleLeft = keyframes`
     from {
@@ -106,7 +107,7 @@ class Contact extends React.Component {
                     <Body variant="h3" component="p">
                         I love writing about technology, projects I'm working on, and my family.
                         My wife has a blog and we both occasionally write about our dogs, Hazel and Knight, and our cat, Luna.
-                        You can check those out here [mine] and here [hers], if you like reading about crazy pet stories and overall madness.
+                        You can check those out here [<Link to="/blog">mine</Link>] and here [<a href="https://www.sanchezvisualarts.com/blog/" target="_blank" rel="noopener noreferrer">hers</a>], if you like reading about crazy pet stories and overall madness.
                     </Body>
                     <Body gutterBottom variant="h3" component="p">
                         If you would like to contact me for work or to collaborate please feel free to use

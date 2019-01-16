@@ -1,7 +1,8 @@
 import React from "react"
 import Layout from "../layout/Layout"
 import styled from "styled-components"
-import firebase from "firebase"
+import firebase from "firebase/app"
+import "firebase/firestore"
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { ListWrapper } from ".";
 import BlogPostListItem from "../components/BlogPostListItem"
