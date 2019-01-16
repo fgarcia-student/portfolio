@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { Typography } from "@material-ui/core";
 
 const ThumbnailWrapper = styled.div`
     position: relative;
@@ -36,6 +37,7 @@ const IFrameWrapper = styled.div`
     position: relative;
     transform: scale(0.25);
     transform-origin: 0 0;
+    transition: opacity .2s ease-in;
 `;
 
 const IFrame = styled.iframe`
@@ -49,18 +51,29 @@ const Detail = styled.div`
     flex-direction: column;
 `;
 
-function SelectedProject({ project }) {
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    if (!isNaN(date)) {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const year = date.getFullYear();
+        return `${month}/${day}/${year}`;
+    }
+    return "-";
+}
+
+function SelectedProject({ project, loading, handleLoad }) {
     return (
         <>
             <ThumbnailWrapper>
-                <IFrameWrapper>
-                    <IFrame src={project.homepage} frameBorder="0" sandbox></IFrame>
+                <IFrameWrapper style={{ opacity: loading ? 0 : 1 }}>
+                    <IFrame id="iframe" src={project.homepage} frameBorder="0" onLoad={handleLoad}></IFrame>
                 </IFrameWrapper>
             </ThumbnailWrapper>
             <Detail>
-                <span>{project.name}</span>
-                <span>{project.created_at}</span>
-                <span>{project.updated_at}</span>
+                <Typography variant="h4">Name: {project.name}</Typography>
+                <Typography variant="h5">Created: {formatDate(project.created_at)}</Typography>
+                <Typography variant="h5">Last Updated: {formatDate(project.updated_at)}</Typography>
             </Detail>
         </>
     )

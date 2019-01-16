@@ -43,8 +43,13 @@ class Projects extends React.Component {
         this.state = {
             hoveredProject: null,
             selectedProject: null,
-            projects: []
+            projects: [],
+            loading: false
         }
+    }
+
+    handleLoad = () => {
+        this.setState({ loading: false });
     }
 
     componentDidMount() {
@@ -56,6 +61,14 @@ class Projects extends React.Component {
                 this.setState({ projects, hoveredProject: projects[0] })
             }
         })
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.selectedProject && this.state.selectedProject) {
+            if (prevState.selectedProject.id !== this.state.selectedProject.id) {
+                this.setState({ loading: true });
+            }
+        }
     }
 
     render() {
@@ -84,7 +97,7 @@ class Projects extends React.Component {
                     {this.state.selectedProject === null && "Select a project to preview..."}
                     {
                         this.state.selectedProject != null &&
-                        <SelectedProject project={this.state.selectedProject} />
+                        <SelectedProject project={this.state.selectedProject} loading={this.state.loading} handleLoad={this.handleLoad} />
                     }
                 </SelectedProjectWrapper>
             </Layout>
