@@ -29,8 +29,8 @@ const SelectedProjectWrapper = styled.div`
 const sortByDateModifiedWithNullLast = (a, b) => {
     if (!a.homepage) return 1;
     else if (!b.homepage) return -1;
-    else if (new Date(a.updated_at) > new Date(b.updated_at)) return 1;
-    else if (new Date(a.updated_at) < new Date(b.updated_at)) return -1;
+    else if (new Date(a.pushed_at) > new Date(b.pushed_at)) return -1;
+    else if (new Date(a.pushed_at) < new Date(b.pushed_at)) return 1;
     return 0;
 }
 

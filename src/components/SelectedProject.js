@@ -73,7 +73,7 @@ function SelectedProject({ project, loading, handleLoad }) {
             <Detail>
                 <Typography variant="h4">Name: {project.name}</Typography>
                 <Typography variant="h5">Created: {formatDate(project.created_at)}</Typography>
-                <Typography variant="h5">Last Updated: {formatDate(project.updated_at)}</Typography>
+                <Typography variant="h5">Last Updated: {formatDate(project.pushed_at)}</Typography>
             </Detail>
         </>
     )
