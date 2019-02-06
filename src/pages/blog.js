@@ -34,6 +34,11 @@ const BlogListWrapper = styled(ListWrapper)`
     align-items: flex-start;
 `;
 
+const TextArea = styled(TextField)`
+    width: 90%;
+    height: 90%;
+`;
+
 function byDate(postA, postB) {
     const dateA = new Date(postA.date);
     const dateB = new Date(postB.date);
@@ -65,11 +70,16 @@ class Blog extends React.Component {
             loggedIn: false,
             modals: {login: false, post: false},
             post: "",
+            title: "",
             tagsToAdd: [],
         }
     }
     
     componentDidMount() {
+        this.getData();
+    }
+
+    getData = () => {
         const getPosts = new Promise((resolve, reject) => {
             const posts = [];
             const tags = {};
@@ -120,6 +130,21 @@ class Blog extends React.Component {
         this.auth.signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => {
             this.setState({ loggedIn: true, modals: {login: false, post: false} });
+        })
+    }
+
+    handlePost = () => {
+        const now = new Date();
+        this.db.collection("posts").add({
+            title: this.state.title,
+            author: this.auth.currentUser.uid,
+            content: this.state.post,
+            date: `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`,
+            tags: ["woah", "for wifey"]
+        })
+        .then(() => {
+            this.handleClose();
+            this.getData();
         })
     }
 
@@ -199,14 +224,30 @@ class Blog extends React.Component {
                             <Typography variant="h6" color="inherit">
                                 New Blog Post
                             </Typography>
-                            <Button color="inherit" onClick={this.handleClose}>
+                            <Button color="inherit" onClick={this.handlePost}>
                                 Post
                             </Button>
                         </Toolbar>
                     </AppBar>
-                    <DialogContent>
-                        <textarea
-
+                    <DialogContent
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center"
+                        }}
+                    >
+                        <TextField
+                            margin="dense"
+                            id="title"
+                            label="Title"
+                            fullWidth
+                            value={this.state.title}
+                            onChange={(e) => this.setState({ title: e.currentTarget.value })}
+                        />
+                        <TextArea
+                            multiline
+                            value={this.state.post}
+                            onChange={(e) => this.setState({ post: e.currentTarget.value })}
                         />
                     </DialogContent>
                 </Dialog>

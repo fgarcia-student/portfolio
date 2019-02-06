@@ -5,6 +5,7 @@ import MuiTypography from '@material-ui/core/Typography'
 
 const ItemWrapper = styled.div`
     border: 1px solid black;
+    width: 100%;
     border-radius: 3px;
     padding: 1rem;
     margin-bottom: 1rem;
