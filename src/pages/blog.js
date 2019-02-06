@@ -19,14 +19,16 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import CloseIcon from '@material-ui/icons/Close'
 
-firebase.initializeApp({
-    apiKey: "AIzaSyB6SuFOVeX7Za9J0tiKfuv9_63SUVaELZg",
-    authDomain: "triple-student-185704.firebaseapp.com",
-    databaseURL: "https://triple-student-185704.firebaseio.com",
-    projectId: "triple-student-185704",
-    storageBucket: "triple-student-185704.appspot.com",
-    messagingSenderId: "331710830613",
-});
+if (typeof window !== "undefined") {
+    firebase.initializeApp({
+        apiKey: "AIzaSyB6SuFOVeX7Za9J0tiKfuv9_63SUVaELZg",
+        authDomain: "triple-student-185704.firebaseapp.com",
+        databaseURL: "https://triple-student-185704.firebaseio.com",
+        projectId: "triple-student-185704",
+        storageBucket: "triple-student-185704.appspot.com",
+        messagingSenderId: "331710830613",
+    });
+}
 
 const BlogListWrapper = styled(ListWrapper)`
     height: unset;
@@ -57,9 +59,11 @@ class Blog extends React.Component {
     constructor(props) {
         super(props);
 
-        this.db = firebase.firestore();
-        this.auth = firebase.auth();
-        this.db.settings({ timestampsInSnapshots: true })
+        if (typeof window !== "undefined") {
+            this.db = firebase.firestore();
+            this.auth = firebase.auth();
+            this.db.settings({ timestampsInSnapshots: true })
+        }
         this.state = {
             posts: [],
             users: [],
