@@ -45,12 +45,12 @@ const createTagElements = (tag) => (
     <Tag key={tag}>{tag}</Tag>
 );
 
-function BlogPostListItem({ post }) {
+function BlogPostListItem({ post, name }) {
     const tags = Array(...post.tags).map(createTagElements);
     return (
         <ItemWrapper>
             <Title gutterBottom variant="h3" component="div">{post.title}</Title>
-            <Author gutterBottom variant="h4" component="div">{post.author}</Author>
+            <Author gutterBottom variant="h4" component="div">{name}</Author>
             <Date gutterBottom variant="h5" component="div">{post.date}</Date>
             <TagWrapper>{tags}</TagWrapper>
             <Content gutterBottom variant="h5" component="div">{post.content}</Content>
