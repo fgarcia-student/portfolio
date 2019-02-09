@@ -7,7 +7,7 @@ import "firebase/auth"
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { ListWrapper } from ".";
 import BlogPostListItem from "../components/BlogPostListItem"
-import { Button } from "@material-ui/core"
+import { Button, Chip } from "@material-ui/core"
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -39,6 +39,7 @@ const BlogListWrapper = styled(ListWrapper)`
 const TextArea = styled(TextField)`
     width: 90%;
     height: 90%;
+    font-size: 16px;
 `;
 
 function byDate(postA, postB) {
@@ -98,9 +99,12 @@ class Blog extends React.Component {
                         date: post.get("date"),
                         tags: post.get("tags")
                     });
-                    tags[post.get("tags")] = true;
+                    const postTags = post.get("tags");
+                    postTags.forEach((tag) => tags[tag] = true);
                 });
-                resolve({posts, tags});
+                const currentTags = [];
+                Object.keys(tags).forEach((tag) => currentTags.push(tag));
+                resolve({posts, currentTags});
             })
             .catch((err) => {
                 reject(err);
@@ -122,7 +126,7 @@ class Blog extends React.Component {
         });
 
         Promise.all([getPosts, getUsers])
-        .then(([postsAndTags, users]) => this.setState({ posts: postsAndTags.posts.sort(byDate), currentTags: postsAndTags.tags, users }))
+        .then(([postsAndTags, users]) => this.setState({ posts: postsAndTags.posts.sort(byDate), currentTags: postsAndTags.currentTags, users }))
         .catch((err) => this.setState({ error: err }))
     }
 
@@ -144,12 +148,28 @@ class Blog extends React.Component {
             author: this.auth.currentUser.uid,
             content: this.state.post,
             date: `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`,
-            tags: ["woah", "for wifey"]
+            tags: this.state.tagsToAdd,
         })
         .then(() => {
             this.handleClose();
             this.getData();
         })
+    }
+
+    addTag = (tag) => {
+        const tagsToAdd = [...this.state.tagsToAdd];
+        if (tagsToAdd.indexOf(tag) === -1) {
+            tagsToAdd.push(tag);
+            this.setState({ tagsToAdd });
+        }
+    }
+
+    deleteTag = (tag) => {
+        const tagsToAdd = [...this.state.tagsToAdd];
+        if (tagsToAdd.indexOf(tag) !== -1) {
+            tagsToAdd.splice(tagsToAdd.indexOf(tag), 1);
+            this.setState({ tagsToAdd });
+        }
     }
 
     render() {
@@ -236,6 +256,7 @@ class Blog extends React.Component {
                     <DialogContent
                         style={{
                             display: "flex",
+                            flexDirection: "column",
                             justifyContent: "center",
                             alignItems: "center"
                         }}
@@ -244,15 +265,42 @@ class Blog extends React.Component {
                             margin="dense"
                             id="title"
                             label="Title"
-                            fullWidth
                             value={this.state.title}
                             onChange={(e) => this.setState({ title: e.currentTarget.value })}
                         />
                         <TextArea
                             multiline
+                            rows={40}
+                            rowsMax={40}
                             value={this.state.post}
                             onChange={(e) => this.setState({ post: e.currentTarget.value })}
                         />
+                        <div style={{ margin: "10px 0" }}>
+                            {
+                                this.state.currentTags.map((tag) => {
+                                    return (
+                                        <Chip
+                                            key={tag}
+                                            label={tag}
+                                            onClick={this.addTag.bind(this, tag)}
+                                        />
+                                    );
+                                })
+                            }
+                        </div>
+                        <div>
+                            {
+                                this.state.tagsToAdd.map((tag) => {
+                                    return (
+                                        <Chip
+                                            key={tag}
+                                            label={tag}
+                                            onDelete={this.deleteTag.bind(this, tag)}
+                                        />
+                                    );
+                                })
+                            }
+                        </div>
                     </DialogContent>
                 </Dialog>
             </Layout>
